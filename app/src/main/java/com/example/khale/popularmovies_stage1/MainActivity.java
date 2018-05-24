@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
 
     //Add your api key here
-    public static final String api = "1f4ef052b7b10c5795d39931eb8194ad";
+    public static final String api = "put your api here";
     public static final String baseURL = "https://api.themoviedb.org/3/movie/";
 
     @Override

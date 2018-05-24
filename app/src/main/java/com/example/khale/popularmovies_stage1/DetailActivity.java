@@ -19,7 +19,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private TextView title, userRating, release, plotSynopsis;
     private ImageView movieImage;
-    //String api = "1f4ef052b7b10c5795d39931eb8194ad";
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
