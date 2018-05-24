@@ -1,21 +1,11 @@
 <resources>
-    <string name="app_name">PopularMovies-Stage1</string>
+    <string name="app_name">popularmovies_stage1</string>
     <string name="error_message">An error has occurred. Please check your internet connection and try again.</string>
 
     <string name="most_popular">Most Popular Movies</string>
     <string name="top_rated">Top Rated Movies</string>
     <string name="refresh">Refresh</string>
-    <string name="release">Release:</string>
-    <string name="rating">Rating:</string>
-    <string name="overview">Overview:\n</string>
-    <string name="sort_settings">Sort Movies</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
     <string name="dialog_title">Select sorting type</string>
-    <string-array name="sort_types">
-        <item>Most Popular</item>
-        <item>Top Rated</item>
-    </string-array>
     <string name="title_activity_detail">Movie Details</string>
 
 </resources>

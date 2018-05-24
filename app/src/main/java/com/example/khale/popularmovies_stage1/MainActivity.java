@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG = "MainActivity";
 
     //Add your api key here
-    public static final String api = "put your api here";
+    public static final String api = "Add API key in here!";
     public static final String baseURL = "https://api.themoviedb.org/3/movie/";
 
     @Override
@@ -137,8 +137,10 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < jsonMoviesArray.length(); i++){
                 JSONObject jsonObject = jsonMoviesArray.getJSONObject(i);
                 movies[i] = new Movie(jsonObject.getString("original_title"),
-                        jsonObject.getString("poster_path"), jsonObject.getString("overview"),
-                        jsonObject.getString("vote_average"), jsonObject.getString("release_date"));
+                        jsonObject.getString("poster_path"),
+                        jsonObject.getString("vote_average"),
+                        jsonObject.getString("overview"),
+                        jsonObject.getString("release_date"));
             }
             return movies;
         }
