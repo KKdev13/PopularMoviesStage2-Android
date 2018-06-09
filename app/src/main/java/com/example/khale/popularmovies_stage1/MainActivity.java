@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Movie> movieList;
     private TextView tvErrorMessage;
     private ProgressBar pbLoadingIndicator;
-
+    //public int selected;
     String TAG = "MainActivity";
 
     //Add your api key here
-    public static final String api = "Add API key in here!";
+    public static final String api = "1f4ef052b7b10c5795d39931eb8194ad";
     public static final String baseURL = "https://api.themoviedb.org/3/movie/";
 
     @Override
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getMovies (String filter) {
+    public void getMovies (String filter) {
 
         tvErrorMessage.setVisibility(View.INVISIBLE);
 
@@ -96,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
+    /*@Override
     protected void onStart() {
         super.onStart();
         getMovies(popular);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -240,5 +240,6 @@ public class MainActivity extends AppCompatActivity {
                 tvErrorMessage.setVisibility(View.VISIBLE);
             }
         }
+
     }
 }

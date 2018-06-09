@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     private void loadImage(String path){
         String urlBuilder = new StringBuilder()
