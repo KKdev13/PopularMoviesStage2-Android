@@ -18,5 +18,10 @@
         android:title="@string/refresh"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_favorites"
+        android:orderInCategory="4"
+        android:title="@string/favorites"
+        app:showAsAction="never"/>
 
 </menu>

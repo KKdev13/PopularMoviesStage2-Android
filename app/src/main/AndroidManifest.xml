@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.khale.popularmovies_stage1">
+    package="com.example.khale.popularmovies_stage2">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.khale.popularmovies_stage1.MainActivity"
+            android:name="com.example.khale.popularmovies_stage2.MainActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
@@ -24,11 +24,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.khale.popularmovies_stage1.DetailActivity"
+            android:name="com.example.khale.popularmovies_stage2.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.khale.popularmovies_stage2.MainActivity"/>
         </activity>
+
+        <provider
+            android:name= "data.MovieContentProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
 </manifest>

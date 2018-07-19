@@ -1,22 +1,20 @@
-package com.example.khale.popularmovies_stage1;
+package com.example.khale.popularmovies_stage2;
 
-import android.content.DialogInterface;
+import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.SharedPreferences;
+
 import java.util.ArrayList;
 
-import android.view.Window;
 import android.widget.GridView;
 import android.widget.AdapterView;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.os.AsyncTask;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,26 +25,32 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import data.MovieContract;
+
 public class MainActivity extends AppCompatActivity {
 
     private final String popular = "popular";
     private final String top_rated = "top_rated";
-    private ImageAdapter imageAdapter;
+    private final String favorite = "favorite";
+    private MovieAdapter movieAdapter;
     private ArrayList<Movie> movieList;
     private TextView tvErrorMessage;
     private ProgressBar pbLoadingIndicator;
+    private Context context;
+    private String sort = popular;
+
     //public int selected;
     String TAG = "MainActivity";
 
     //Add your api key here
-    public static final String api = "1f4ef052b7b10c5795d39931eb8194ad";
+    //public static final String api = "1f4ef052b7b10c5795d39931eb8194ad";
     public static final String baseURL = "https://api.themoviedb.org/3/movie/";
 
     @Override
@@ -56,20 +60,38 @@ public class MainActivity extends AppCompatActivity {
         pbLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         tvErrorMessage = (TextView) findViewById(R.id.tv_error_message);
 
-        movieList = new ArrayList<>();
-        imageAdapter = new ImageAdapter(this, movieList);
+        if (savedInstanceState != null){
+            if(savedInstanceState.containsKey("sort")){
+                sort = savedInstanceState.getString("sort");
+            }
+            if(savedInstanceState.containsKey("movies")){
+                movieList = savedInstanceState.getParcelableArrayList("movies");
+            }
+        }else {
+            movieList = new ArrayList<>();
+        }
+
+        movieAdapter = new MovieAdapter(this, movieList);
         GridView gridView = (GridView) findViewById(R.id.grid_view);
-        gridView.setAdapter(imageAdapter);
+        gridView.setAdapter(movieAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Movie movie = imageAdapter.getItem(position);
+                Movie movie = movieAdapter.getItem(position);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra("movie", movie);
                 startActivity(intent);
             }
         });
-        getMovies(popular);
+        //getMovies(popular);
+        if(savedInstanceState != null){
+            if(!savedInstanceState.containsKey("movies")){
+                getMovies(sort);
+            }
+        }else {
+            getMovies(sort);
+        }
+        context = this;
 
     }
 
@@ -77,18 +99,34 @@ public class MainActivity extends AppCompatActivity {
 
         tvErrorMessage.setVisibility(View.INVISIBLE);
 
-        FetchMovies fetchMovies = new FetchMovies(new Callback() {
-            @Override
-            void updateAdapter(Movie[] movies) {
-                if (movies != null) {
-                    imageAdapter.clear();
-                    Collections.addAll(movieList, movies);
-                    imageAdapter.notifyDataSetChanged();
+        if(filter.equals(favorite)){
+            FetchFavoriteMovies fetchFavoriteMovies = new FetchFavoriteMovies(new Callback(){
+                @Override
+                public void updateAdapter(List<Movie> movies) {
+                    if(movies != null){
+                        movieAdapter.clear();
+                        movieList.addAll(movies);
+                        movieAdapter.notifyDataSetChanged();
+                    }
                 }
-            }
-        });
-        fetchMovies.execute(filter);
+            });
+            fetchFavoriteMovies.execute(filter);
+        } else {
+            FetchMovies fetchMovies = new FetchMovies(new Callback(){
+                @Override
+                public void updateAdapter(List<Movie> movies) {
+                    if(movies != null){
+                        movieAdapter.clear();
+                        movieList.addAll(movies);
+                        movieAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+            fetchMovies.execute(filter);
+        }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,18 +143,32 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if(id == R.id.action_top_rated){
             getMovies(top_rated);
+            sort = top_rated;
             return true;
-        } else if(id == R.id.action_most_popular || id == R.id.action_refresh){
+        }
+        if(id == R.id.action_most_popular){
             getMovies(popular);
+            sort = popular;
+            return true;
+        }
+        if(id == R.id.action_favorites){
+            getMovies(favorite);
+            sort = favorite;
+            return true;
+        }
+        if(id == R.id.action_refresh){
+            getMovies(sort);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-     public class FetchMovies extends AsyncTask<String, Void, Movie[]> {
+
+    public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
         private final Callback callback;
 
@@ -124,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             this.callback = movieCallback;
         }
 
-        private Movie[] fetchMoviesFromJson (String jsonMovieStr) throws JSONException {
+        private List<Movie> fetchMoviesFromJson (String jsonMovieStr) throws JSONException {
             if (jsonMovieStr == null || "".equals(jsonMovieStr)){
                 return null;
             }
@@ -132,15 +184,13 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jsonMovieObj = new JSONObject(jsonMovieStr);
             JSONArray jsonMoviesArray = jsonMovieObj.getJSONArray("results");
 
-            Movie[] movies = new Movie[jsonMoviesArray.length()];
+            //Movie[] movies = new Movie[jsonMoviesArray.length()];
+            List<Movie> movies = new ArrayList<>();
 
             for (int i = 0; i < jsonMoviesArray.length(); i++){
-                JSONObject jsonObject = jsonMoviesArray.getJSONObject(i);
-                movies[i] = new Movie(jsonObject.getString("original_title"),
-                        jsonObject.getString("poster_path"),
-                        jsonObject.getString("vote_average"),
-                        jsonObject.getString("overview"),
-                        jsonObject.getString("release_date"));
+                JSONObject jsonMovie = jsonMoviesArray.getJSONObject(i);
+                Movie movie = new Movie(jsonMovie);
+                movies.add(movie);
             }
             return movies;
         }
@@ -152,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Movie[] doInBackground(String... params) {
+        protected List<Movie> doInBackground(String... params) {
 
             if(params.length == 0){
                 return null;
@@ -164,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
             Uri uri = Uri.parse(baseURL).buildUpon()
                     .appendEncodedPath(params[0])
-                    .appendQueryParameter("api_key", api)
+                    .appendQueryParameter("api_key", context.getString(R.string.API_Key))
                     .build();
 
             try {
@@ -205,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
                 }*/
 
 
-            }catch(Exception e){
+            }catch(IOException e){
                 e.printStackTrace();
                 Log.e(TAG, "Error", e);
             } finally {
@@ -231,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Movie[] movies) {
+        protected void onPostExecute(List<Movie> movies) {
 
             pbLoadingIndicator.setVisibility(View.INVISIBLE);
             if(movies != null){
@@ -241,5 +291,63 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    public class FetchFavoriteMovies extends AsyncTask<String, Void, List<Movie>>{
+
+        private Callback callback;
+        private Context context;
+
+        FetchFavoriteMovies (Callback fmovieCallback){
+            this.callback = fmovieCallback;
+            context = getApplicationContext();
+        }
+
+        private List<Movie> fetchFavoriteMoviesFromCursor(Cursor cursor){
+            List<Movie> movies = new ArrayList<>();
+            if(cursor != null && cursor.moveToFirst()){
+                do {
+                    Movie movie = new Movie(cursor);
+                    movies.add(movie);
+                } while (cursor.moveToNext());
+                cursor.close();
+            }
+            return movies;
+        }
+
+        @Override
+        protected List<Movie> doInBackground(String... params) {
+            if (params.length == 0){
+                return null;
+            }
+            Cursor cursor = context.getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                    MovieContract.MOVIE_COLUMNS, null, null, null);
+            return fetchFavoriteMoviesFromCursor(cursor);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pbLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            pbLoadingIndicator.setVisibility(View.INVISIBLE);
+            if(movies != null){
+                callback.updateAdapter(movies);
+            }else {
+                tvErrorMessage.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("sort", sort);
+        if(movieList != null){
+            outState.putParcelableArrayList("movies", movieList);
+        }
+        super.onSaveInstanceState(outState);
     }
 }

@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">popularmovies_stage1</string>
+    <string name="app_name">popularmovies_stage2</string>
     <string name="error_message">An error has occurred. Please check your internet connection and try again.</string>
 
     <string name="most_popular">Most Popular Movies</string>
     <string name="top_rated">Top Rated Movies</string>
+    <string name="favorites">Favorite Movies</string>
     <string name="refresh">Refresh</string>
     <string name="dialog_title">Select sorting type</string>
     <string name="title_activity_detail">Movie Details</string>
+    <string name="content_authority">com.example.khale.popularmovies_stage2</string>
 
 </resources>

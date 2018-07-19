@@ -1,23 +1,20 @@
-package com.example.khale.popularmovies_stage1;
+package com.example.khale.popularmovies_stage2;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.GridView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ImageAdapter extends BaseAdapter {
+public class MovieAdapter extends BaseAdapter {
     private Context mContext;
     private List<Movie> movies;
-    private String[] image_paths;
+    public final static String IMAGE_SIZE = "w500";
 
    // public ImageAdapter(Context context){
     //    mContext = context;
@@ -25,7 +22,7 @@ public class ImageAdapter extends BaseAdapter {
    public final static String base_url = "http://image.tmdb.org/t/p/w185";
    String LOG_TAG = "ImageAdapter";
 
-   public ImageAdapter(Context context, List<Movie> movies) {
+   public MovieAdapter(Context context, List<Movie> movies) {
        mContext = context;
        this.movies = movies;
    }
@@ -43,6 +40,13 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    public void setData(List<Movie> data){
+       clear();
+       for(Movie movie : data){
+           movies.add(movie);
+       }
     }
 
     public View getView(int position, View view, ViewGroup parent){

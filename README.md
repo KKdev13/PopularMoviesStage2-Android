@@ -1,7 +1,7 @@
-#Popular Movies Stage 1#
+#Popular Movies Stage 2#
 
-This app helps users search popular and recent movies. 
 
-Please note: In order to build and run the code, you need to request an API key from themoviedb.org. Create your account here: https://www.themoviedb.org/account/signup, 
+This repository contains the code of the submitted project Popular Movies (Stage 2) 
 
-Enter the API key in the files MainActivity.java at the place mentioned in comments. 
+
+NOTE: Enter your API_KEY value in res/values/api_key.xml

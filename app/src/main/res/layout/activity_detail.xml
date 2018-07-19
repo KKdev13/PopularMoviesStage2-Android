@@ -22,6 +22,15 @@
             android:gravity="center"
             android:textSize="25sp"/>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:onClick="addToFavorite"
+            android:src="@drawable/ic_star_border_black_24dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,6 +71,36 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_trailer_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Trailers:"/>
+
+
+        <android.support.v7.widget.RecyclerView android:id="@+id/trailersRecyclerView"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+
+        <TextView
+            android:id="@+id/tv_reviews_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Reviews:"/>
+
+        <android.support.v7.widget.RecyclerView android:id="@+id/reviewsRecyclerView"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+
 
     </LinearLayout>
 
