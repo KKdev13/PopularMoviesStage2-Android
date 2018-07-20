@@ -1,10 +1,12 @@
-package data;
+package com.example.khale.popularmovies_stage2.data ;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class MovieDbHelper extends SQLiteOpenHelper{
+
+
+public class MovieDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "movies.db";
     private static final int DATABASE_VERSION = 1;
@@ -35,4 +37,5 @@ public class MovieDbHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MovieContract.MovieEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
+
 }

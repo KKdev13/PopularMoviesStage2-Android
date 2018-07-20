@@ -1,4 +1,4 @@
-package data;
+package com.example.khale.popularmovies_stage2.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

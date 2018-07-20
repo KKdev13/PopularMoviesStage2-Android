@@ -25,14 +25,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import data.MovieContract;
+import com.example.khale.popularmovies_stage2.data.MovieContract;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,9 +48,8 @@ public class MainActivity extends AppCompatActivity {
     //public int selected;
     String TAG = "MainActivity";
 
-    //Add your api key here
-    //public static final String api = "1f4ef052b7b10c5795d39931eb8194ad";
-    public static final String baseURL = "https://api.themoviedb.org/3/movie/";
+
+    public static final String baseURL = "https://api.themoviedb" + "" + "" + ".org/3/movie/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        //getMovies(popular);
+
         if(savedInstanceState != null){
             if(!savedInstanceState.containsKey("movies")){
                 getMovies(sort);
@@ -265,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 if(reader != null) {
                     try {
                         reader.close();
-                    } catch (final IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                         Log.e(TAG, "Error closing stream", e);
                     }

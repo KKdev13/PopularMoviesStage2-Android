@@ -1,5 +1,6 @@
 package com.example.khale.popularmovies_stage2;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -31,7 +32,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.MovieContract;
+import com.example.khale.popularmovies_stage2.data.MovieContract;
 
 public class DetailActivity extends AppCompatActivity implements MovieTrailerAdapter.OnItemClicked {
 
@@ -330,6 +331,7 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void addToFavorite(View view) {
         if (movie != null) {
             new AsyncTask<Void, Void, Integer>() {
@@ -342,7 +344,7 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
                 @Override
                 protected void onPostExecute(Integer isFavorite) {
                     if (isFavorite == 1) {
-                        new AsyncTask<Void, Void, Integer>() {
+                        new  AsyncTask<Void, Void, Integer>() {
                             @Override
                             protected Integer doInBackground(Void... params) {
                                 return getContentResolver().delete

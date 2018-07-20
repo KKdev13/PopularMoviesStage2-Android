@@ -33,7 +33,7 @@
         </activity>
 
         <provider
-            android:name= "data.MovieContentProvider"
+            android:name= "com.example.khale.popularmovies_stage2.data.MovieContentProvider"
             android:authorities="@string/content_authority"
             android:exported="false"/>
     </application>

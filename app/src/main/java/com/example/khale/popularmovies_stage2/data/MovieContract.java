@@ -1,5 +1,6 @@
-package data;
+package com.example.khale.popularmovies_stage2.data;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
@@ -25,6 +26,9 @@ public class MovieContract {
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
         public static final String COLUMN_RELEASE_DATE = "release_date";
 
+        //public static final String CONTENT_DIR_TYPE = ContentResolver
+         //       .CURSOR_DIR_BASE_TYPE + "/" + AUTHORITY + "/" + PATH_MOVIES;
+
         public static Uri buildMoviesUri (long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
@@ -45,8 +49,6 @@ public class MovieContract {
     public static final int COL_OVERVIEW = 4;
     public static final int COL_RATING   = 5;
     public static final int COL_DATE     = 6;
-
-
 
 
 }

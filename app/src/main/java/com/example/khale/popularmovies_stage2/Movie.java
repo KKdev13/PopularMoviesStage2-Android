@@ -7,9 +7,7 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import data.MovieContract;
+import com.example.khale.popularmovies_stage2.data.MovieContract;
 
 public class Movie implements Parcelable{
     private String id;
@@ -18,7 +16,7 @@ public class Movie implements Parcelable{
     private String voteAverage;
     private String overview;
     private String releaseDate;
-    private boolean isFavorite = false;
+    //private boolean isFavorite = false;
 
     public Movie(String id, String title, String imagePath, String voteAverage, String overview, String releaseDate){
         this.id = id;
