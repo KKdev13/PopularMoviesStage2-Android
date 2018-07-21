@@ -359,7 +359,6 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
                                 fbFavorite.setImageResource(R.drawable.ic_star_border_black_24dp);
                                 Toast toast = Toast.makeText(context, "Favorite removed!", Toast.LENGTH_LONG);
                                 toast.show();
-
                             }
                         }.execute();
                     } else {
@@ -392,6 +391,7 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
         }
 
     }
+
 
     public int isFavorite(String id) {
         Cursor cursor = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,

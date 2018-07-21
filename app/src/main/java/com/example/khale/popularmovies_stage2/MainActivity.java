@@ -167,6 +167,13 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sort = favorite;
+        getMovies(sort);
+
+    }
 
     public class FetchMovies extends AsyncTask<String, Void, List<Movie>> {
 
