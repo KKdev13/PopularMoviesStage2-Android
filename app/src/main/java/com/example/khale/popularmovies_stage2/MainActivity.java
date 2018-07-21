@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvErrorMessage;
     private ProgressBar pbLoadingIndicator;
     private Context context;
+
     private String sort = popular;
 
     //public int selected;
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if(id == R.id.action_refresh){
             getMovies(sort);
+            sort = favorite;
             return true;
         }
 
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
             Uri uri = Uri.parse(baseURL).buildUpon()
                     .appendEncodedPath(params[0])
-                    .appendQueryParameter("api_key", context.getString(R.string.API_Key))
+                    .appendQueryParameter("api_key", BuildConfig.myApi)
                     .build();
 
             try {

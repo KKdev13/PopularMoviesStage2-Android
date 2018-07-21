@@ -4,4 +4,4 @@
 This repository contains the code of the submitted project Popular Movies (Stage 2) 
 
 
-NOTE: Enter your API_KEY value in res/values/api_key.xml
+NOTE: Please enter your API_KEY value in gradle.properties file!

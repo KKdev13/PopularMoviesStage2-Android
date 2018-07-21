@@ -13,9 +13,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -97,7 +99,6 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
     private void loadImage(String path){
         String urlBuilder = new StringBuilder()
                 .append(MovieAdapter.base_url)
-                .append(MovieAdapter.IMAGE_SIZE)
                 .append(path).toString();
 
         Picasso.with(getApplicationContext())
@@ -162,7 +163,7 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
 
                 Uri builtUri = Uri.parse(base_url)
                         .buildUpon()
-                        .appendQueryParameter("api_key", context.getString(R.string.API_Key))
+                        .appendQueryParameter("api_key", BuildConfig.myApi)
                         .build();
                 URL url = new URL(builtUri.toString());
 
@@ -262,7 +263,7 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
                         params[0] + "/videos";
 
                 Uri builtUri = Uri.parse(base_url).buildUpon()
-                        .appendQueryParameter("api_key", context.getString(R.string.API_Key))
+                        .appendQueryParameter("api_key", BuildConfig.myApi)
                         .build();
 
                 URL url = new URL(builtUri.toString());
@@ -356,6 +357,9 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
                             @Override
                             protected void onPostExecute(Integer rowsDeleted) {
                                 fbFavorite.setImageResource(R.drawable.ic_star_border_black_24dp);
+                                Toast toast = Toast.makeText(context, "Favorite removed!", Toast.LENGTH_LONG);
+                                toast.show();
+
                             }
                         }.execute();
                     } else {
@@ -378,6 +382,8 @@ public class DetailActivity extends AppCompatActivity implements MovieTrailerAda
                             @Override
                             protected void onPostExecute(Uri returnUri) {
                                 fbFavorite.setImageResource(R.drawable.ic_star_black_24dp);
+                                Toast toast = Toast.makeText(context, "Favorite added!", Toast.LENGTH_LONG);
+                                toast.show();
                             }
                         }.execute();
                     }
